@@ -1,0 +1,133 @@
+.app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px 60px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-areas:
+    "preview controls"
+    "output  output";
+  gap: 20px;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "preview"
+      "controls"
+      "output";
+  }
+}
+
+.preview-card {
+  grid-area: preview;
+}
+.controls-card {
+  grid-area: controls;
+}
+.output-card {
+  grid-area: output;
+}
+
+/* Card */
+.card {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0))
+      padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04))
+      border-box;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-1);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.card-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--text);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04);
+}
+.dot-pink {
+  background: var(--accent-2);
+  box-shadow: 0 0 18px var(--accent-2);
+}
+.dot-violet {
+  background: var(--accent);
+  box-shadow: 0 0 18px var(--accent);
+}
+.dot-cyan {
+  background: var(--accent-3);
+  box-shadow: 0 0 18px var(--accent-3);
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+  font-family: var(--mono);
+  white-space: nowrap;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chip.subtle {
+  color: var(--text-dim);
+}
+
+/* Footer */
+.footer {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-mute);
+  font-size: 12px;
+}

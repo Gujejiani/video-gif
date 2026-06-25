@@ -1,0 +1,134 @@
+.output {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .output {
+    grid-template-columns: 1fr;
+  }
+}
+
+.output-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.output-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn.big {
+  padding: 12px 18px;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.status-stage {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-pct {
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+.progress {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a78bfa, #f472b6, #38bdf8);
+  background-size: 200% 100%;
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.progress-fill[data-active="true"] {
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.output-error {
+  color: var(--danger);
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+
+.output-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.output-preview {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background:
+    repeating-conic-gradient(#1a1a2a 0% 25%, #14141f 0% 50%) 50% / 24px 24px;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.output-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.output-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-mute);
+  font-size: 13px;
+}
+
+.output-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}

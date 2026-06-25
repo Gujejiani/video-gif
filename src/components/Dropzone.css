@@ -1,0 +1,168 @@
+.dropzone {
+  position: relative;
+  min-height: 460px;
+  border-radius: var(--radius-lg);
+  border: 1.5px dashed rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(167, 139, 250, 0.07),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+  outline: none;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.08),
+    0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+.dropzone.is-dragging {
+  border-color: var(--accent);
+  background:
+    radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(167, 139, 250, 0.18),
+      transparent 60%
+    );
+  transform: scale(1.005);
+}
+
+.dz-glow {
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      400px 200px at 20% 10%,
+      rgba(167, 139, 250, 0.18),
+      transparent
+    ),
+    radial-gradient(
+      400px 200px at 80% 90%,
+      rgba(56, 189, 248, 0.12),
+      transparent
+    );
+}
+
+.dz-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 640px;
+}
+
+.dz-icon {
+  display: inline-grid;
+  place-items: center;
+  margin-bottom: 22px;
+  filter: drop-shadow(0 8px 24px rgba(167, 139, 250, 0.35));
+}
+
+.dz-title {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3.4vw, 34px);
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.grad {
+  background: linear-gradient(120deg, #a78bfa, #f472b6 55%, #38bdf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dz-sub {
+  margin: 0 0 22px;
+  color: var(--text-dim);
+}
+
+.dz-cta {
+  padding: 12px 22px;
+  font-size: 15px;
+}
+
+.dz-error {
+  color: var(--danger);
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+.dz-features {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.dz-features li {
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* Shared button styles */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border-hi);
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.05s ease, background 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover {
+  background: var(--surface-hi);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: #0b0b12;
+  background: linear-gradient(120deg, #a78bfa, #f472b6);
+  box-shadow: 0 10px 30px rgba(167, 139, 250, 0.35);
+}
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-ghost {
+  background: transparent;
+}
+
+.btn-danger {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+.btn-danger:hover {
+  background: rgba(248, 113, 113, 0.18);
+}

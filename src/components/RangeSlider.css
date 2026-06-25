@@ -1,0 +1,62 @@
+.rs {
+  position: relative;
+  height: 28px;
+  width: 100%;
+  user-select: none;
+  touch-action: none;
+}
+
+.rs-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 6px;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+}
+
+.rs-range {
+  position: absolute;
+  top: 50%;
+  height: 6px;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, #a78bfa, #f472b6);
+  box-shadow: 0 0 18px rgba(167, 139, 250, 0.4);
+}
+
+.rs-thumb {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 2px solid #a78bfa;
+  box-shadow: 0 4px 14px rgba(167, 139, 250, 0.45);
+  cursor: grab;
+  padding: 0;
+}
+.rs-thumb:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+.rs-thumb:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.rs-marker {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 16px;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
