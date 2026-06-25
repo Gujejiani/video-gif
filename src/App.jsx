@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import GIF from 'gif.js'
+import encode from 'gifski-wasm'
 import Dropzone from './components/Dropzone'
 import VideoPreview from './components/VideoPreview'
 import ControlsPanel from './components/ControlsPanel'
@@ -10,8 +10,8 @@ import './App.css'
 
 const DEFAULT_SETTINGS = {
   fps: 24,
-  width: 480,
-  quality: 5, // gif.js: lower = better (1..30) — 5 = High
+  width: 640,
+  quality: 90, // gifski: 1-100, higher = better
   loop: true,
 }
 
@@ -122,15 +122,6 @@ function App() {
     canvas.height = h
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
 
-    const gif = new GIF({
-      workers: 4,
-      quality: settings.quality,
-      width: w,
-      height: h,
-      workerScript: import.meta.env.BASE_URL + 'gif.worker.js',
-      repeat: settings.loop ? 0 : -1,
-    })
-
     const seekTo = (t) =>
       new Promise((resolve) => {
         const handler = () => {
@@ -147,33 +138,38 @@ function App() {
       const wasMuted = video.muted
       video.muted = true
 
-      const frameDelayMs = 1000 / settings.fps
+      const frames = []
 
       for (let i = 0; i < totalFrames; i++) {
         if (cancelRef.current) throw new Error('cancelled')
         const t = start + (i / settings.fps)
         await seekTo(t)
         ctx.drawImage(video, 0, 0, w, h)
-        gif.addFrame(ctx, { copy: true, delay: frameDelayMs })
-        setProgress(((i + 1) / totalFrames) * 0.5) // capturing = first 50%
+        const imageData = ctx.getImageData(0, 0, w, h)
+        frames.push(imageData)
+        setProgress(((i + 1) / totalFrames) * 0.6) // capturing = first 60%
       }
 
       video.muted = wasMuted
 
-      setStage('encoding')
+      if (cancelRef.current) throw new Error('cancelled')
 
-      const blob = await new Promise((resolve, reject) => {
-        gif.on('progress', (p) => {
-          // encoding = second 50%
-          setProgress(0.5 + p * 0.5)
-        })
-        gif.on('finished', (b) => resolve(b))
-        gif.on('abort', () => reject(new Error('aborted')))
-        gif.render()
+      setStage('encoding')
+      setProgress(0.65)
+
+      // Use gifski-wasm for high quality encoding
+      const gifData = await encode({
+        frames,
+        width: w,
+        height: h,
+        fps: settings.fps,
+        quality: settings.quality,
+        repeat: settings.loop ? 0 : -1,
       })
 
       if (cancelRef.current) throw new Error('cancelled')
 
+      const blob = new Blob([gifData], { type: 'image/gif' })
       const url = URL.createObjectURL(blob)
       setGifUrl(url)
       setGifSize(blob.size)

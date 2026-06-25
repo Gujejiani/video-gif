@@ -4,9 +4,9 @@ import './ControlsPanel.css'
 const FPS_PRESETS = [8, 12, 15, 20, 24, 30]
 const WIDTH_PRESETS = [240, 360, 480, 640, 720]
 const QUALITY_PRESETS = [
-  { label: 'High', value: 5 },
-  { label: 'Balanced', value: 10 },
-  { label: 'Small', value: 20 },
+  { label: 'High', value: 90 },
+  { label: 'Balanced', value: 60 },
+  { label: 'Small', value: 30 },
 ]
 
 function ControlsPanel({
