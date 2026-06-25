@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import GIF from 'gif.js'
-import gifWorkerUrl from 'gif.js/dist/gif.worker.js?url'
 import Dropzone from './components/Dropzone'
 import VideoPreview from './components/VideoPreview'
 import ControlsPanel from './components/ControlsPanel'
@@ -124,11 +123,11 @@ function App() {
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
 
     const gif = new GIF({
-      workers: 2,
+      workers: 4,
       quality: settings.quality,
       width: w,
       height: h,
-      workerScript: gifWorkerUrl,
+      workerScript: import.meta.env.BASE_URL + 'gif.worker.js',
       repeat: settings.loop ? 0 : -1,
     })
 
