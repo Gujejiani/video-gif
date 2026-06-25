@@ -10,9 +10,9 @@ import { formatBytes, formatTime } from './utils/format'
 import './App.css'
 
 const DEFAULT_SETTINGS = {
-  fps: 12,
+  fps: 24,
   width: 480,
-  quality: 10, // gif.js: lower = better (1..30)
+  quality: 5, // gif.js: lower = better (1..30) — 5 = High
   loop: true,
 }
 
