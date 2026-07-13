@@ -18,13 +18,13 @@ const DEFAULT_SETTINGS = {
 function App() {
   const [file, setFile] = useState(null)
   const [videoUrl, setVideoUrl] = useState(null)
-  const [meta, setMeta] = useState(null) // {duration, width, height}
+  const [meta, setMeta] = useState(null)
   const [range, setRange] = useState([0, 0])
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
 
   const [isConverting, setIsConverting] = useState(false)
   const [progress, setProgress] = useState(0)
-  const [stage, setStage] = useState('idle') // idle | capturing | encoding | done
+  const [stage, setStage] = useState('idle')
   const [gifUrl, setGifUrl] = useState(null)
   const [gifSize, setGifSize] = useState(0)
   const [error, setError] = useState(null)
@@ -32,7 +32,6 @@ function App() {
   const videoRef = useRef(null)
   const cancelRef = useRef(false)
 
-  // Clean up object URLs
   useEffect(() => {
     return () => {
       if (videoUrl) URL.revokeObjectURL(videoUrl)
@@ -113,8 +112,7 @@ function App() {
 
     const video = videoRef.current
     const [start, end] = range
-    const duration = Math.max(0, end - start)
-    const totalFrames = Math.max(1, Math.round(duration * settings.fps))
+    const totalFrames = Math.max(1, Math.round(Math.max(0, end - start) * settings.fps))
     const { w, h } = outputSize
 
     const canvas = document.createElement('canvas')
@@ -133,7 +131,6 @@ function App() {
       })
 
     try {
-      // Pause and mute for capture
       video.pause()
       const wasMuted = video.muted
       video.muted = true
@@ -146,8 +143,8 @@ function App() {
         await seekTo(t)
         ctx.drawImage(video, 0, 0, w, h)
         const imageData = ctx.getImageData(0, 0, w, h)
-        frames.push(imageData)
-        setProgress(((i + 1) / totalFrames) * 0.6) // capturing = first 60%
+        frames.push(new Uint8Array(imageData.data.buffer))
+        setProgress(((i + 1) / totalFrames) * 0.6)
       }
 
       video.muted = wasMuted
@@ -157,15 +154,18 @@ function App() {
       setStage('encoding')
       setProgress(0.65)
 
-      // Use gifski-wasm for high quality encoding
-      const gifData = await encode({
+      const encodeOpts = {
         frames,
         width: w,
         height: h,
         fps: settings.fps,
         quality: settings.quality,
-        repeat: settings.loop ? 0 : -1,
-      })
+      }
+      if (settings.loop) {
+        encodeOpts.repeat = 0
+      }
+
+      const gifData = await encode(encodeOpts)
 
       if (cancelRef.current) throw new Error('cancelled')
 
